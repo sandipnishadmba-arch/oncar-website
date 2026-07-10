@@ -1,0 +1,97 @@
+---
+pid: 19080
+cwd: "C:\\Users\\abc\\.cursor\\projects\\d-surathf"
+command: "npm run dev"
+started_at: 2026-07-02T09:03:34.662Z
+running_for_ms: 5496986  
+---
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> surat-house-finish@1.0.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.20 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.7:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.7s
+ ○ Compiling / ...
+ ✓ Compiled / in 8s
+ GET / 200 in 12072ms
+ GET / 200 in 867ms
+ ⚠ Cross origin request detected from 192.168.1.7 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ GET / 200 in 542ms
+ GET / 200 in 664ms
+ GET / 200 in 642ms
+ GET / 200 in 602ms
+ GET / 200 in 764ms
+ GET / 200 in 522ms
+ GET / 200 in 607ms
+ GET / 200 in 2498ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ GET / 200 in 2075ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ GET / 200 in 1653ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ GET / 200 in 1388ms
+ ✓ Compiled in 19.1s
+ GET / 200 in 15370ms
+ GET / 200 in 28256ms
+ GET / 200 in 4750ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ ✓ Compiled in 1660ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 33.6s
+ GET /_next/internal/helpers.ts 404 in 34277ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ ✓ Compiled in 2.8s
+ ✓ Compiled / in 260ms
+ GET / 200 in 4368ms
+ GET / 200 in 927ms
+ GET / 200 in 91589ms
+ GET / 200 in 62065ms
+ GET / 200 in 62258ms
+ GET / 200 in 2706ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 1810ms
+ GET /_next/internal/helpers.ts 404 in 3949ms
+ GET / 200 in 4673ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ GET / 200 in 2886ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ GET / 200 in 2582ms
+ GET / 200 in 7513ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ GET / 200 in 1207ms
+ GET / 200 in 1181ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ GET / 200 in 452ms
+ GET / 200 in 814ms
+ GET / 200 in 565ms
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1607472586893-a8838146759d?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1555041469-a586c861ea9a?w=800&h=600&fit=crop 404
+ ⨯ upstream image response failed for https://images.unsplash.com/photo-1631545806606-4114b7e4c869?w=800&h=600&fit=crop 404
+ GET / 200 in 487ms
+ GET / 200 in 716ms
+ GET / 200 in 606ms
+ GET / 200 in 562ms
+ GET / 200 in 1327ms
+ GET / 200 in 642ms

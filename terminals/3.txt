@@ -1,0 +1,27 @@
+---
+pid: 19624
+cwd: |
+  D:\surathf
+---
+Microsoft Windows [Version 10.0.26200.8655]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\surathf>cd /d C:\Users\%USERNAME%\Documents
+
+C:\Users\abc\Documents>mkdir SuratHouseFinish
+
+C:\Users\abc\Documents>cd SuratHouseFinish
+
+C:\Users\abc\Documents\SuratHouseFinish>npm run dev           
+npm error code ENOENT
+npm error syscall open
+npm error path C:\Users\abc\Documents\SuratHouseFinish\package.json
+npm error errno -4058
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open 'C:\Users\abc\Documents\SuratHouseFinish\package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: C:\Users\abc\AppData\Local\npm-cache\_logs\2026-07-02T09_43_38_763Z-debug-0.log
+
+C:\Users\abc\Documents\SuratHouseFinish>^A
+
+C:\Users\abc\Documents\SuratHouseFinish>npm run dev           

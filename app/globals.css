@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-text antialiased;
+  }
+
+  ::selection {
+    @apply bg-secondary/30 text-primary;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Safe area insets for mobile keyboards and notches */
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .pb-safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+  }
+}
+
+/* Booking Widget Slider Fixes */
+.booking-modal,
+.booking-slider-wrapper {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.booking-slider {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.booking-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  touch-action: pan-y;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img, video, iframe {
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  section, main, .container, .booking-card, .modal, .plans-wrapper {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .booking-card, .modal-content, .plan-card {
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+  }
+}

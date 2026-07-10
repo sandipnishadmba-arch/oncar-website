@@ -1,0 +1,10 @@
+const Database = require('better-sqlite3');
+const db = new Database('data/database.db');
+const stmt = db.prepare('INSERT OR IGNORE INTO site_settings (key, value) VALUES (?, ?)');
+stmt.run('url', 'https://oncar.in');
+stmt.run('meta_title', 'OnCar – Apni Car Mein Driving Seekho | Surat');
+stmt.run('meta_description', 'OnCar Surat – Apni car mein driving seekho apne time par. Verified instructor aapke ghar par aakar own car me driving sikhayega. Trial Class ₹399 se start.');
+stmt.run('meta_keywords', 'driving class surat,own car driving surat,driving instructor surat,learn driving surat,car driving course surat,driving lessons surat,oncar surat,driving school surat,driving training surat');
+stmt.run('og_image', 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop');
+console.log('SEO settings inserted');
+db.close();

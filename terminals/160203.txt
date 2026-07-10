@@ -1,0 +1,69 @@
+---
+pid: 18872
+cwd: "C:\\Users\\abc\\.cursor\\projects\\d-surathf"
+command: "npm install; npm run build"
+started_at: 2026-07-02T08:58:08.636Z
+running_for_ms: 304347   
+---
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+added 359 packages, and audited 360 packages in 4m
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+2 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn allow-scripts   unrs-resolver@1.12.2 (postinstall: node postinstall.js)
+npm warn allow-scripts   sharp@0.34.5 (install: node install/check.js || npm run build)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> surat-house-finish@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.20
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 13.2s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/12) ...
+   Generating static pages (3/12) 
+   Generating static pages (6/12) 
+   Generating static pages (9/12) 
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    3.75 kB         124 kB
+├ ○ /_not-found                            131 B         103 kB
+├ ○ /robots.txt                            131 B         103 kB
+├ ● /services/[slug]                     1.67 kB         122 kB
+├   ├ /services/painting
+├   ├ /services/interior-design
+├   ├ /services/plumbing
+├   └ [+3 more paths]
+└ ○ /sitemap.xml                           131 B         103 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-3981a3d1f3561bd8.js       46.2 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          1.99 kB
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+
+---
+exit_code: 0
+elapsed_ms: 306003
+ended_at: 2026-07-02T09:03:14.639Z
+---
