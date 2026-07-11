@@ -6,11 +6,11 @@ let cachedData: { services: any[]; categories: any[] } | null = null;
 let cacheTime = 0;
 const CACHE_TTL = 60_000; // 1 minute
 
-function getSearchData() {
+async function getSearchData() {
   const now = Date.now();
   if (!cachedData || now - cacheTime > CACHE_TTL) {
-    const services = getServices(); // all services with category_name
-    const categories = getCategories();
+    const services = await getServices(); // all services with category_name
+    const categories = await getCategories();
     cachedData = { services, categories };
     cacheTime = now;
   }
@@ -19,7 +19,7 @@ function getSearchData() {
 
 export async function GET() {
   try {
-    const data = getSearchData();
+    const data = await getSearchData();
     return NextResponse.json(data, {
       headers: {
         "Cache-Control": "public, max-age=60, stale-while-revalidate=120",

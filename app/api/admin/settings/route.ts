@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       }
     }
 
-    updateSettings(sanitizedSettings);
+    await updateSettings(sanitizedSettings);
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("POST settings error:", error);

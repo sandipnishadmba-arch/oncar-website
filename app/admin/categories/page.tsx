@@ -11,7 +11,7 @@ export default async function AdminCategoriesPage() {
     redirect("/admin");
   }
 
-  const categories = getCategories();
+  const categories = await getCategories();
 
   return <CategoriesManager initialCategories={categories} />;
 }

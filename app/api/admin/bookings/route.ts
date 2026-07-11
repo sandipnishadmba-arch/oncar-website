@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     const area = searchParams.get("area");
     const date = searchParams.get("date");
 
-    let bookings = getBookings();
+    let bookings = await getBookings();
 
     // Apply filtering
     if (status) {
@@ -51,7 +51,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    updateBooking(
+    await updateBooking(
       parseInt(id.toString()),
       status,
       assigned_worker || null

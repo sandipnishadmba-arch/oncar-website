@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const settings = getSettings();
+    const settings = await getSettings();
     return NextResponse.json(settings);
   } catch (error) {
     console.error("GET public settings error:", error);

@@ -5,8 +5,8 @@ import { getSettings } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default function FAQPage() {
-  const settings = getSettings() as any;
+export default async function FAQPage() {
+  const settings = await getSettings() as any;
   const faqs = Array.isArray(settings?.faqs) && settings.faqs.length > 0 ? settings.faqs : FAQ_ITEMS;
 
   const faqSchema = {

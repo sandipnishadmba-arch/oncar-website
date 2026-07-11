@@ -11,7 +11,7 @@ export default async function LogoutPage() {
   if (sessionCookie) {
     // Delete session from SQLite database
     try {
-      deleteSession(sessionCookie.value);
+      await deleteSession(sessionCookie.value);
     } catch (e) {
       console.error("Failed to delete session from DB:", e);
     }

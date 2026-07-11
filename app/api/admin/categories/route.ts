@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await checkAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getCategories());
+  return NextResponse.json(await getCategories());
 }
 
 export async function POST(request: Request) {
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const result = addCategory(name, slug, image || "", icon || "ShieldCheck", type);
+    const result = await addCategory(name, slug, image || "", icon || "ShieldCheck", type);
     return NextResponse.json({ success: true, id: result.lastInsertRowid });
   } catch (error) {
     console.error("POST categories error:", error);
@@ -46,7 +46,7 @@ export async function PUT(request: Request) {
     // Check if this is a bulk reordering request
     if (body.orders && Array.isArray(body.orders)) {
       const { updateCategoryOrders } = require("@/lib/db");
-      updateCategoryOrders(body.orders);
+      await updateCategoryOrders(body.orders);
       return NextResponse.json({ success: true });
     }
 
@@ -56,7 +56,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    updateCategory(
+    await updateCategory(
       parseInt(id.toString()), 
       name, 
       slug, 
@@ -85,7 +85,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Category ID required" }, { status: 400 });
     }
 
-    deleteCategory(parseInt(id));
+    await deleteCategory(parseInt(id));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE categories error:", error);

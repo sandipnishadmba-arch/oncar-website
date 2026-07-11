@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { createBooking } from "@/lib/db";
-import Database from "better-sqlite3";
-import path from "path";
+import { createBooking, query } from "@/lib/db";
 
 export async function POST(request: Request) {
   try {
@@ -35,8 +33,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Save to SQLite
-    const result = createBooking({
+    // Save to PostgreSQL
+    const result = await createBooking({
       type,
       service_name,
       category_name,
@@ -98,11 +96,9 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Phone number required" }, { status: 400 });
     }
 
-    // Connect to SQLite directly
-    const dbPath = path.join(process.cwd(), "data", "database.db");
-    const db = new Database(dbPath);
-    const bookings = db.prepare("SELECT * FROM bookings WHERE phone = ? ORDER BY created_at DESC").all(phone);
-    db.close();
+    // Fetch bookings from PostgreSQL
+    const result = await query("SELECT * FROM bookings WHERE phone = $1 ORDER BY created_at DESC", [phone]);
+    const bookings = result.rows;
 
     // console.log(`My Bookings fetched booking list: ${bookings.length} bookings for phone ${phone}`);
 

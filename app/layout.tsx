@@ -27,7 +27,7 @@ export const viewport = {
 };
 
 export async function generateMetadata() {
-  const settings = getSettings() as any;
+  const settings = await getSettings() as any;
   return generatePageMetadata({
     title: settings.meta_title,
     description: settings.meta_description,
@@ -44,8 +44,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = getSettings() as any;
-  const categories = getCategories();
+  const settings = await getSettings() as any;
+  const categories = await getCategories();
 
   // Retrieve current path from middleware header
   const headersList = await headers();

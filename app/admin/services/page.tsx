@@ -11,8 +11,8 @@ export default async function AdminServicesPage() {
     redirect("/admin");
   }
 
-  const services = getServices();
-  const categories = getCategories();
+  const services = await getServices();
+  const categories = await getCategories();
 
   return <ServicesManager initialServices={services} categories={categories} />;
 }

@@ -1,25 +1,23 @@
 import { NextResponse } from "next/server";
-import Database from "better-sqlite3";
-import path from "path";
+import { query } from "@/lib/db";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    const dbPath = path.join(process.cwd(), "data", "database.db");
-    const db = new Database(dbPath);
-
     if (id) {
-      const service = db.prepare(`
+      const res = await query(`
         SELECT s.*, c.name as category_name, sd.discount_type, sd.discount_value
         FROM services s
         JOIN categories c ON s.category_id = c.id
         LEFT JOIN service_discounts sd ON s.id = sd.service_id AND sd.is_active = 1
-          AND (sd.start_date IS NULL OR sd.start_date = '' OR date(sd.start_date) <= date('now', 'localtime'))
-          AND (sd.end_date IS NULL OR sd.end_date = '' OR date(sd.end_date) >= date('now', 'localtime'))
-        WHERE s.id = ? AND s.is_active = 1
-      `).get(parseInt(id)) as any;
+          AND (sd.start_date IS NULL OR sd.start_date = '' OR sd.start_date <= TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'))
+          AND (sd.end_date IS NULL OR sd.end_date = '' OR sd.end_date >= TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'))
+        WHERE s.id = $1 AND s.is_active = 1
+      `, [parseInt(id)]);
+      
+      const service = res.rows[0];
 
       if (!service) {
         return NextResponse.json({ error: "Service not found" }, { status: 404 });
@@ -41,18 +39,18 @@ export async function GET(request: Request) {
         features: Array.isArray(features) ? features : [service.description]
       });
     } else {
-      const services = db.prepare(`
+      const res = await query(`
         SELECT s.*, c.name as category_name, sd.discount_type, sd.discount_value
         FROM services s
         JOIN categories c ON s.category_id = c.id
         LEFT JOIN service_discounts sd ON s.id = sd.service_id AND sd.is_active = 1
-          AND (sd.start_date IS NULL OR sd.start_date = '' OR date(sd.start_date) <= date('now', 'localtime'))
-          AND (sd.end_date IS NULL OR sd.end_date = '' OR date(sd.end_date) >= date('now', 'localtime'))
+          AND (sd.start_date IS NULL OR sd.start_date = '' OR sd.start_date <= TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'))
+          AND (sd.end_date IS NULL OR sd.end_date = '' OR sd.end_date >= TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'))
         WHERE s.is_active = 1
         ORDER BY s.display_order ASC
-      `).all() as any[];
+      `);
 
-      const parsedServices = services.map(s => {
+      const parsedServices = res.rows.map(s => {
         let features = [];
         if (s.features) {
           try {

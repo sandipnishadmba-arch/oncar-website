@@ -11,7 +11,7 @@ export default async function BookingsLogPage() {
     redirect("/admin");
   }
 
-  const bookings = getBookings();
+  const bookings = await getBookings();
 
   return <BookingsManager initialBookings={bookings} />;
 }

@@ -8,10 +8,10 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get("code");
 
-    const offers = getOffers();
+    const offers = await getOffers();
     
     // Validate offer status, date bounds, and usage limit
-    const validateOffer = (o: any) => {
+    const validateOffer = async (o: any) => {
       // is_active toggle must be active (1)
       if (o.is_active !== 1) return false;
       
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
       
       // Check coupon usage limit count
       if (o.usage_limit !== null && o.code) {
-        const usageCount = getOfferUsageCount(o.code);
+        const usageCount = await getOfferUsageCount(o.code);
         if (usageCount >= o.usage_limit) return false;
       }
       
@@ -45,13 +45,18 @@ export async function GET(request: Request) {
       );
       
       // Safety: direct links/checkouts fail if the banner offer is invalid, disabled, hidden, or expired
-      if (match && validateOffer(match)) {
+      if (match && (await validateOffer(match))) {
         return NextResponse.json(match);
       }
       return NextResponse.json({ error: "Offer code invalid or expired" }, { status: 404 });
     }
 
-    const activeOffers = offers.filter(validateOffer);
+    const activeOffers = [];
+    for (const o of offers) {
+      if (await validateOffer(o)) {
+        activeOffers.push(o);
+      }
+    }
     return NextResponse.json(activeOffers);
   } catch (error) {
     console.error("GET public offers error:", error);

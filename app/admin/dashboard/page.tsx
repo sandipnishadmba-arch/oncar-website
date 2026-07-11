@@ -1,7 +1,6 @@
 import { getAuthUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Database from "better-sqlite3";
-import path from "path";
+import { query } from "@/lib/db";
 import Link from "next/link";
 import { LayoutGrid, Wrench, FileText, ClipboardList, Clock, CheckCircle } from "lucide-react";
 
@@ -13,22 +12,26 @@ export default async function DashboardPage() {
     redirect("/admin");
   }
 
-  const dbPath = path.join(process.cwd(), "data", "database.db");
-  const db = new Database(dbPath);
-
   // Fetch counts
-  const categoryCount = db.prepare("SELECT count(*) as count FROM categories").get() as { count: number };
-  const serviceCount = db.prepare("SELECT count(*) as count FROM services").get() as { count: number };
+  const categoryCountResult = await query("SELECT count(*) as count FROM categories");
+  const categoryCount = { count: parseInt(categoryCountResult.rows[0].count) };
+
+  const serviceCountResult = await query("SELECT count(*) as count FROM services");
+  const serviceCount = { count: parseInt(serviceCountResult.rows[0].count) };
   
-  const instantBookings = db.prepare("SELECT count(*) as count FROM bookings WHERE type = 'instant'").get() as { count: number };
-  const quotationRequests = db.prepare("SELECT count(*) as count FROM bookings WHERE type = 'quotation'").get() as { count: number };
+  const instantBookingsResult = await query("SELECT count(*) as count FROM bookings WHERE type = 'instant'");
+  const instantBookings = { count: parseInt(instantBookingsResult.rows[0].count) };
+
+  const quotationRequestsResult = await query("SELECT count(*) as count FROM bookings WHERE type = 'quotation'");
+  const quotationRequests = { count: parseInt(quotationRequestsResult.rows[0].count) };
 
   // Fetch recent bookings
-  const recentBookings = db.prepare(`
+  const recentBookingsResult = await query(`
     SELECT * FROM bookings 
     ORDER BY created_at DESC 
     LIMIT 5
-  `).all() as {
+  `);
+  const recentBookings = recentBookingsResult.rows as {
     id: number;
     type: string;
     service_name: string | null;
@@ -40,7 +43,7 @@ export default async function DashboardPage() {
     preferred_date: string | null;
     preferred_time: string | null;
     notes: string | null;
-    created_at: string;
+    created_at: any;
   }[];
 
   return (

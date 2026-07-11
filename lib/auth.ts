@@ -7,7 +7,7 @@ export async function getAuthUser() {
 
   if (!sessionCookie) return null;
 
-  const session = getSession(sessionCookie.value);
+  const session = await getSession(sessionCookie.value);
   if (!session) return null;
 
   return {

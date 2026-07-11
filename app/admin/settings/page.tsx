@@ -11,7 +11,7 @@ export default async function AdminSettingsPage() {
     redirect("/admin");
   }
 
-  const settings = getSettings();
+  const settings = await getSettings();
 
   return <SettingsManager initialSettings={settings} />;
 }

@@ -12,7 +12,7 @@ export async function GET() {
   if (!(await checkAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getServices());
+  return NextResponse.json(await getServices());
 }
 
 export async function POST(request: Request) {
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const result = addService(
+    const result = await addService(
       parseInt(categoryId.toString()),
       name,
       description || "",
@@ -58,7 +58,7 @@ export async function PUT(request: Request) {
     // Check if this is a bulk reordering request
     if (body.orders && Array.isArray(body.orders)) {
       const { updateServiceOrders } = require("@/lib/db");
-      updateServiceOrders(body.orders);
+      await updateServiceOrders(body.orders);
       return NextResponse.json({ success: true });
     }
 
@@ -82,7 +82,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    updateService(
+    await updateService(
       parseInt(id.toString()),
       parseInt(categoryId.toString()),
       name,
@@ -118,7 +118,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Service ID required" }, { status: 400 });
     }
 
-    deleteService(parseInt(id));
+    await deleteService(parseInt(id));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE services error:", error);

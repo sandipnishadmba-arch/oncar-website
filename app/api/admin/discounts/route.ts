@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await checkAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getServiceDiscounts());
+  return NextResponse.json(await getServiceDiscounts());
 }
 
 export async function POST(request: Request) {
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const result = addServiceDiscount(
+    const result = await addServiceDiscount(
       parseInt(service_id.toString()),
       discount_type,
       parseFloat(discount_value.toString()),
@@ -55,7 +55,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    updateServiceDiscount(
+    await updateServiceDiscount(
       parseInt(id.toString()),
       parseInt(service_id.toString()),
       discount_type,
@@ -85,7 +85,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Discount ID required" }, { status: 400 });
     }
 
-    deleteServiceDiscount(parseInt(id));
+    await deleteServiceDiscount(parseInt(id));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE discounts error:", error);

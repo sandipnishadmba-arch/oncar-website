@@ -3,8 +3,8 @@ import { getSettings } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const settings = getSettings() as any;
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const settings = await getSettings() as any;
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
   const baseUrl = envUrl || settings?.url || "https://oncar.in";
 

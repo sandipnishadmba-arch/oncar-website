@@ -11,10 +11,10 @@ export default async function AdminOffersPage() {
     redirect("/admin");
   }
 
-  const offers = getOffers();
-  const categories = getCategories();
-  const discounts = getServiceDiscounts();
-  const services = getServices();
+  const offers = await getOffers();
+  const categories = await getCategories();
+  const discounts = await getServiceDiscounts();
+  const services = await getServices();
 
   return (
     <OffersManager 

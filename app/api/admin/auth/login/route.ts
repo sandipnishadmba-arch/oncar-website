@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import Database from "better-sqlite3";
-import path from "path";
 import bcrypt from "bcryptjs";
-import { createSession } from "@/lib/db";
+import { createSession, query } from "@/lib/db";
 
 export async function POST(request: Request) {
   try {
@@ -14,11 +12,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
     }
 
-    const dbPath = path.join(process.cwd(), "data", "database.db");
-    const db = new Database(dbPath);
-
     // Get user
-    const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email) as any;
+    const userRes = await query("SELECT * FROM users WHERE email = $1", [email]);
+    const user = userRes.rows[0] as any;
     if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }

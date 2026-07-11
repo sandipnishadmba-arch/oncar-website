@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await checkAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getOffers());
+  return NextResponse.json(await getOffers());
 }
 
 export async function POST(request: Request) {
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
-    const result = addOffer(
+    const result = await addOffer(
       title,
       subtitle || null,
       code || null,
@@ -73,7 +73,7 @@ export async function PUT(request: Request) {
 
     // Check if this is a bulk reordering request
     if (body.orders && Array.isArray(body.orders)) {
-      updateOfferOrders(body.orders);
+      await updateOfferOrders(body.orders);
       return NextResponse.json({ success: true });
     }
 
@@ -83,7 +83,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    updateOffer(
+    await updateOffer(
       parseInt(id.toString()),
       title,
       subtitle || null,
@@ -134,7 +134,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Invalid status value" }, { status: 400 });
     }
 
-    updateOfferStatus(parseInt(id.toString()), status);
+    await updateOfferStatus(parseInt(id.toString()), status);
 
     return NextResponse.json({
       success: true,
@@ -162,7 +162,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Offer ID required" }, { status: 400 });
     }
 
-    deleteOffer(parseInt(id));
+    await deleteOffer(parseInt(id));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE offers error:", error);
