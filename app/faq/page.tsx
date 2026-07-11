@@ -2,8 +2,19 @@ import Link from "next/link";
 import { ArrowLeft, HelpCircle } from "lucide-react";
 import { FAQ_ITEMS } from "@/lib/constants";
 import { getSettings } from "@/lib/db";
+import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata({
+    title: "OnCar FAQ | Driving Training Questions Answered",
+    description: "Find answers to frequently asked questions about OnCar doorstep driving lessons in Surat. Details on manual/automatic cars, trial sessions, and timings.",
+    keywords: ["oncar faq", "driving instructor surat faq", "doorstep driving classes surat", "learn driving in own car surat"],
+    path: "/faq",
+  });
+}
 
 export default async function FAQPage() {
   const settings = await getSettings() as any;

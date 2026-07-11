@@ -168,7 +168,7 @@ async function seedDb(client: any) {
 
     // Seed Users
     const users = [
-      { id: 1, email: "admin@kaamon.in", password: "$2b$10$2RSIpblm74N43EtLsRwcF.xcVbplJyT5xXa5Yduh05glsKrfaj4fq" }
+      { id: 1, email: "admin@kaamon.in", password: "$2b$10$mqqAvHcs6XTCtkC8MtCLdOO91Ein98b3JSuOmQrnciRc3PmcV1ocW" }
     ];
     for (const u of users) {
       await client.query("INSERT INTO users (id, email, password) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING", [u.id, u.email, u.password]);
@@ -304,7 +304,7 @@ async function seedDb(client: any) {
     const siteSettings = [
       { key: "website_name", value: "OnCar" },
       { key: "logo_text", value: "OnCar" },
-      { key: "tagline", value: "Your Car. Your Time. OnCar." },
+      { key: "tagline", value: "Apni Car. Apna Time. Apna Confidence." },
       { key: "email", value: "info@oncar.in" },
       { key: "phone", value: "+919213466544" },
       { key: "whatsapp_number", value: "+919213466544" },
@@ -327,17 +327,17 @@ async function seedDb(client: any) {
       { key: "payment_upi_name", value: JSON.stringify("SONAM SURESH MALLAH") },
       { key: "trust_badges", value: JSON.stringify([{"title":"Apni Car Practice","description":"Learn in the car you actually own and will drive daily","icon":"Car"},{"title":"Apne Time Par","description":"Schedule sessions at your convenience, no fixed timings","icon":"Clock"},{"title":"Verified Instructors","description":"Professional, background-verified guidance at your doorstep","icon":"UserCheck"},{"title":"Home Pick & Drop","description":"Instructor picks you up from your doorstep in Surat","icon":"MapPin"}]) },
       { key: "testimonials", value: JSON.stringify([{"id":1,"name":"Rajesh Patel","location":"Adajan, Surat","rating":5,"text":"Excellent training! The instructor was very patient. Learning in my own Creta was the best decision.","service":"10 Hours Package"},{"id":2,"name":"Priya Shah","location":"Vesu, Surat","rating":5,"text":"I had extreme driving anxiety. OnCar's structured sessions helped me build great confidence in traffic.","service":"15 Hours Package"},{"id":3,"name":"Amit Desai","location":"Pal, Surat","rating":5,"text":"Convenient home pickup and early morning sessions. Highly recommend OnCar for busy professionals.","service":"Trial Class"},{"id":4,"name":"Neha Mehta","location":"City Light, Surat","rating":5,"text":"Great reverse parking and turning practice. Very reliable service in Surat.","service":"5 Hours Package"}]) },
-      { key: "faqs", value: JSON.stringify([{"question":"Kya meri own car me sikhayenge?","answer":"Haan, hum sirf aapki apni (own) car me hi driving sikhate hain taaki aapko apni car chalane me real-world confidence mile."},{"question":"Instructor ghar par aayega?","answer":"Haan, verified instructor aapke ghar ya preferred location par aakar aapko pick up karega."},{"question":"Trial class available hai?","answer":"Haan, Trial Class sirf ₹399 me available hai jisme aap 1 hour ki driving confidence check aur instructor guidance le sakte hain."},{"question":"Automatic car ke liye available hai?","answer":"Haan, hum Manual aur Automatic dono types ki cars ke liye driving training provide karte hain."},{"question":"Surat me kaunse areas cover hain?","answer":"Hum Surat ke sabhi major areas cover karte hain jaise Adajan, Vesu, Pal, Piplod, Katargam, Varachha, Jahangirpura, etc."},{"question":"Payment kaise hoga?","answer":"Aap booking confirm hone ke baad online UPI ya cash ke through instructor ko direct payment kar sakte hain."}]) },
+      { key: "faqs", value: JSON.stringify([{"question":"Can I learn driving in my own car?","answer":"Yes. OnCar instructors train you in your own manual or automatic car."},{"question":"Is OnCar available across Surat?","answer":"OnCar currently provides service in selected areas of Surat. Customers can confirm location availability during booking."},{"question":"What is the trial session price?","answer":"The trial driving session starts from ₹399."},{"question":"Does the instructor come to my location?","answer":"Yes. The instructor comes to the confirmed customer location and time slot."},{"question":"Can beginners book OnCar?","answer":"Yes. OnCar training is suitable for beginners and drivers who want to improve their road confidence."}]) },
       { key: "razorpay_enabled", value: "true" },
       { key: "razorpay_key_id", value: "rzp_test_L4eY8uYtF6Gq1d" },
       { key: "url", value: "https://oncar.in" },
       { key: "meta_title", value: "OnCar Surat | Learn Driving in Your Own Car" },
-      { key: "meta_description", value: "Learn driving in your own car in Surat with a personal verified instructor. Flexible timing, doorstep training, parking and city traffic practice. Book OnCar on WhatsApp." },
-      { key: "meta_keywords", value: "own car driving classes Surat, learn driving in your own car Surat, personal driving instructor Surat, driving classes at home Surat, car driving training Surat, female driving instructor Surat, automatic car driving classes Surat, manual car driving classes Surat, parking practice Surat, OnCar Surat" },
+      { key: "meta_description", value: "Learn driving confidently in your own car with a verified OnCar instructor in Surat. Flexible timing, doorstep training and trial session from ₹399. Book online today." },
+      { key: "meta_keywords", value: "driving instructor in Surat, learn driving in own car, personal driving instructor Surat, car driving classes Surat, driving classes near me, female driving instructor Surat, automatic car driving classes Surat, manual car driving training Surat, home driving instructor Surat, doorstep driving classes Surat, car driving practice Surat, learn car driving Surat, OnCar Surat" },
       { key: "og_image", value: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop" }
     ];
     for (const s of siteSettings) {
-      await client.query("INSERT INTO site_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING", [s.key, s.value]);
+      await client.query("INSERT INTO site_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value", [s.key, s.value]);
     }
 
     // Seed Offers

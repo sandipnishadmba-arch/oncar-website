@@ -7,9 +7,9 @@ import type {
 
 export const SITE_CONFIG = {
   name: "OnCar",
-  tagline: "Apni Car Mein Driving Seekho, Apne Time Par",
+  tagline: "Apni Car. Apna Time. Apna Confidence.",
   description:
-    "Verified instructor aapke ghar/location par aakar aapki own car me confidence driving sikhayega. Surat city ke liye premium driving learning service.",
+    "Learn driving confidently in your own car with a verified OnCar instructor in Surat. Flexible timing, doorstep training and trial session from ₹399. Book online today.",
   url: "https://oncar.in",
   ogImage:
     "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop",
@@ -25,7 +25,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Why OnCar", href: "/#why-oncar" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Plans", href: "/#plans" },
-  { label: "Benefits", href: "/about" },
+  { label: "Driving Classes Surat", href: "/driving-classes-surat" },
   { label: "FAQ", href: "/faq" },
 ];
 
@@ -81,28 +81,24 @@ export const PROCESS_STEPS: ProcessStep[] = [
 
 export const FAQ_ITEMS: FAQItem[] = [
   {
-    question: "Kya meri own car me sikhayenge?",
-    answer: "Haan, hum sirf aapki apni (own) car me hi driving sikhate hain taaki aapko apni car chalane me real-world confidence mile.",
+    question: "Can I learn driving in my own car?",
+    answer: "Yes. OnCar instructors train you in your own manual or automatic car.",
   },
   {
-    question: "Instructor ghar par aayega?",
-    answer: "Haan, verified instructor aapke ghar ya preferred location par aakar aapko pick up karega.",
+    question: "Is OnCar available across Surat?",
+    answer: "OnCar currently provides service in selected areas of Surat. Customers can confirm location availability during booking.",
   },
   {
-    question: "Trial class available hai?",
-    answer: "Haan, Trial Class sirf ₹399 me available hai jisme aap 1 hour ki driving confidence check aur instructor guidance le sakte hain.",
+    question: "What is the trial session price?",
+    answer: "The trial driving session starts from ₹399.",
   },
   {
-    question: "Automatic car ke liye available hai?",
-    answer: "Haan, hum Manual aur Automatic dono types ki cars ke liye driving training provide karte hain.",
+    question: "Does the instructor come to my location?",
+    answer: "Yes. The instructor comes to the confirmed customer location and time slot.",
   },
   {
-    question: "Surat me kaunse areas cover hain?",
-    answer: "Hum Surat ke sabhi major areas cover karte hain jaise Adajan, Vesu, Pal, Piplod, Katargam, Varachha, Jahangirpura, etc.",
-  },
-  {
-    question: "Payment kaise hoga?",
-    answer: "Aap booking confirm hone ke baad online UPI ya cash ke through instructor ko direct payment kar sakte hain.",
+    question: "Can beginners book OnCar?",
+    answer: "Yes. OnCar training is suitable for beginners and drivers who want to improve their road confidence.",
   },
 ];
 

@@ -21,11 +21,10 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ settings, categories = [] }: JsonLdProps) {
-  const websiteName = settings?.website_name || SITE_CONFIG.name;
+  const websiteName = "OnCar";
   const description = settings?.meta_description || SITE_CONFIG.description;
-  const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
-  const url = envUrl || settings?.url || SITE_CONFIG.url;
-  const phone = settings?.phone || SITE_CONFIG.phone;
+  const url = "https://oncar.in";
+  const phone = "+919213466544";
   const email = settings?.email || SITE_CONFIG.email;
   const addressStr = settings?.address || SITE_CONFIG.address;
   const ogImage = settings?.og_image || SITE_CONFIG.ogImage;
@@ -37,10 +36,11 @@ export function JsonLd({ settings, categories = [] }: JsonLdProps) {
     "name": websiteName,
     "description": description,
     "url": url,
-    "telephone": phone.startsWith("+91") ? phone : `+91${phone}`,
+    "telephone": phone,
     "email": email,
     "image": ogImage,
-    "priceRange": "₹₹",
+    "priceRange": "₹399–₹7,499",
+    "serviceType": "Personal Driving Instructor",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": addressStr,
@@ -53,52 +53,53 @@ export function JsonLd({ settings, categories = [] }: JsonLdProps) {
       "latitude": 21.1702,
       "longitude": 72.8311,
     },
-    "areaServed": [
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Surat, Gujarat, India"
+    },
+    "openingHoursSpecification": [
       {
-        "@type": "City",
-        "name": "Surat",
-        "sameAs": "https://en.wikipedia.org/wiki/Surat"
-      },
-      {
-        "@type": "State",
-        "name": "Gujarat",
-        "sameAs": "https://en.wikipedia.org/wiki/Gujarat"
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+         ],
+        "opens": "07:00",
+        "closes": "22:00"
       }
-    ],
-    "sameAs": []
+    ]
   };
 
-  // 2. Service Schemas for 5 tailored driving plans
+  // 2. Service Schemas for 6 required services
   const servicesList = [
     {
-      name: "Trial Driving Session",
-      price: 399,
-      description: "Own car driving confidence check by certified instructor. Best for first-time trial.",
-      duration: "1 Hour"
+      name: "Personal Driving Instructor",
+      description: "Get a professional, background-verified personal driving instructor in Surat for customized one-to-one lessons."
     },
     {
-      name: "Starter Driving Plan",
-      price: 1299,
-      description: "Learn steering control, brake and accelerator basics, and build road confidence.",
-      duration: "3 Hours"
+      name: "Own Car Driving Training",
+      description: "Learn driving confidently in the comfort and familiarity of your own hatchback, sedan, or SUV."
     },
     {
-      name: "Popular Driving Plan",
-      price: 3999,
-      description: "Comprehensive package including city traffic driving, reverse practice, and flyovers.",
-      duration: "10 Hours"
+      name: "Automatic Car Driving Training",
+      description: "Master automatic transmission controls, creeping, gear selection, and smooth highway driving in Surat."
     },
     {
-      name: "Premium Driving Plan",
-      price: 5799,
-      description: "Advanced practice including highway basics, night driving, parallel and reverse parking.",
-      duration: "15 Hours"
+      name: "Manual Car Driving Training",
+      description: "Learn clutch control, smooth gear shifts, hill starts, and engine braking for manual cars in Surat."
     },
     {
-      name: "Confidence+ Driving Plan",
-      price: 7499,
-      description: "Ultimate practice sessions for daily routes and extreme traffic before driving alone.",
-      duration: "20 Hours"
+      name: "City Traffic Driving Practice",
+      description: "Build confidence in heavy Surat traffic, narrow market streets, flyovers, and busy roundabouts."
+    },
+    {
+      name: "Parking and Reverse Driving Practice",
+      description: "Learn parallel parking, reverse parking, angular parking, tight U-turns, and steering estimation."
     }
   ];
 
@@ -107,41 +108,74 @@ export function JsonLd({ settings, categories = [] }: JsonLdProps) {
     "@type": "Service",
     "name": svc.name,
     "description": svc.description,
-    "serviceType": "Driving Training in Customer’s Own Car",
+    "serviceType": svc.name,
     "provider": {
       "@type": "LocalBusiness",
       "name": websiteName,
       "telephone": phone,
       "url": url
     },
-    "areaServed": [
-      {
-        "@type": "City",
-        "name": "Surat"
-      },
-      {
-        "@type": "State",
-        "name": "Gujarat"
-      }
-    ],
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Surat, Gujarat, India"
+    },
     "offers": {
-      "@type": "Offer",
-      "price": svc.price.toString(),
-      "priceCurrency": "INR",
-      "priceSpecification": {
-        "@type": "UnitPriceSpecification",
-        "price": svc.price.toString(),
-        "priceCurrency": "INR",
-        "referenceQuantity": {
-          "@type": "QuantitativeValue",
-          "value": svc.duration.split(" ")[0],
-          "unitText": svc.duration.split(" ")[1] || "hour"
-        }
-      }
+      "@type": "AggregateOffer",
+      "lowPrice": "399",
+      "highPrice": "7499",
+      "priceCurrency": "INR"
     }
   }));
 
-  const compiledSchemas = [localBusiness, ...serviceSchemas];
+  // 3. FAQ Schema
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I learn driving in my own car?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. OnCar instructors train you in your own manual or automatic car."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is OnCar available across Surat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "OnCar currently provides service in selected areas of Surat. Customers can confirm location availability during booking."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the trial session price?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The trial driving session starts from ₹399."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the instructor come to my location?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The instructor comes to the confirmed customer location and time slot."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can beginners book OnCar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. OnCar training is suitable for beginners and drivers who want to improve their road confidence."
+        }
+      }
+    ]
+  };
+
+  const compiledSchemas = [localBusiness, ...serviceSchemas, faqSchema];
 
   return (
     <script

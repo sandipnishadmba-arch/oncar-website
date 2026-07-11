@@ -613,15 +613,7 @@ Payment Mode: Pay on Instructor Visit
                   </div>
                   
                   <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-secondary leading-tight tracking-tight">
-                    {heroTitle.includes("Driving Seekho") ? (
-                      <>
-                        Apni Car Mein <span className="text-primary">Driving Seekho</span>, <br />
-                        <span className="relative inline-block">
-                          Apne Time Par
-                          <span className="absolute bottom-1 left-0 w-full h-2 bg-primary/10 -z-10 rounded-full" />
-                        </span>
-                      </>
-                    ) : heroTitle}
+                    Learn Driving in Your Own Car in Surat
                   </h1>
                   
                   <p className="text-base sm:text-lg text-muted max-w-2xl leading-relaxed">
@@ -794,8 +786,10 @@ Payment Mode: Pay on Instructor Visit
           <section id="why-oncar" className="py-8 bg-white border-y border-border/40 text-left">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-1.5">
-                <h2 className="text-xs font-black text-primary uppercase tracking-widest">Why Choose Us?</h2>
-                <p className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                  Why Choose OnCar?
+                </h2>
+                <p className="text-xs sm:text-sm text-muted">
                   Aapki Car, Aapki Location, Apne Time Par!
                 </p>
               </div>
@@ -823,12 +817,56 @@ Payment Mode: Pay on Instructor Visit
             </div>
           </section>
 
+          {/* SEO CONTENT SECTION */}
+          <section className="py-12 bg-white border-b border-border/40 text-left">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+                <div className="lg:col-span-7 space-y-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider">
+                    Doorstep Driving Lessons
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                    Verified Driving Instructor at Your Location
+                  </h2>
+                  <div className="text-sm text-muted leading-relaxed space-y-4 font-medium">
+                    <p>
+                      OnCar is Surat&apos;s leading network of personal driving instructors, offering professional doorstep training. Instead of traditional driving schools that teach you on customized hatchbacks with dual controls, we believe you should learn driving in your own car. Whether you own a manual or automatic car, our verified driving instructors in Surat will guide you on the very vehicle you will drive daily, eliminating transition anxiety.
+                    </p>
+                    <p>
+                      Our service model is built around your convenience. We offer highly flexible timing options, including early morning slots, evening practice, and weekend classes, so you can learn without disrupting your work or study schedule. Your personal driving instructor in Surat will visit your home, office, or selected starting point to begin each session.
+                    </p>
+                    <p>
+                      Our comprehensive curriculum covers all crucial aspects of real-world driving. From steering control and lane discipline to complex maneuvers like reverse parking, parallel parking, tight U-turns, flyovers, and navigating bumper-to-bumper city traffic. We focus on building your confidence stage-by-stage without making any fake guarantees or promises of instant mastery. 
+                    </p>
+                    <p>
+                      If you want to experience our premium service before committing to a package, you can book a 1-hour trial driving session starting from just ₹399. Our doorstep driving classes are tailored for beginners, nervous drivers, and those looking to refresh their highway driving skills in Surat.
+                    </p>
+                  </div>
+                </div>
+                <div className="lg:col-span-5 relative flex justify-center">
+                  <div className="relative w-full aspect-[4/3] rounded-[24px] overflow-hidden shadow-xl border border-border/60">
+                    <Image 
+                      src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&fit=crop"
+                      alt="OnCar personal driving instructor in Surat teaching manual and automatic car driving practice"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 450px"
+                      className="object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* 3. HOW IT WORKS */}
           <section id="how-it-works" className="py-8 bg-surface">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-1.5">
-                <h2 className="text-xs font-black text-primary uppercase tracking-widest">How It Works</h2>
-                <p className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                  Learn at Your Own Time in Your Own Car
+                </h2>
+                <p className="text-xs sm:text-sm text-muted">
                   4 Steps To Build Real Road Confidence
                 </p>
               </div>
@@ -861,10 +899,9 @@ Payment Mode: Pay on Instructor Visit
           <section id="plans" className="py-12 bg-white scroll-mt-24">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-2">
-                <h2 className="text-xs font-black text-primary uppercase tracking-widest">Our Plans</h2>
-                <p className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
-                  Choose the Best Plan for Your Learning Goals
-                </p>
+                <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                  Driving Practice Plans in Surat
+                </h2>
                 <p className="text-xs sm:text-sm text-muted">
                   Select one of our tailored packages. Simple booking process with zero hidden costs.
                 </p>
@@ -970,17 +1007,19 @@ Payment Mode: Pay on Instructor Visit
                     Local Driving Lessons
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
-                    Own Car Driving Classes in Surat
+                    Build Confidence in City Traffic
                   </h2>
-                  <p className="text-sm text-muted leading-relaxed">
-                    OnCar provides premium <strong>car driving training in Surat</strong>. We offer custom structured programs like <strong>automatic car driving classes in Surat</strong> and <strong>manual car driving classes in Surat</strong>, tailored specifically to your skill level. 
-                  </p>
-                  <p className="text-sm text-muted leading-relaxed">
-                    With our doorstep pick-and-drop service, you get professional <strong>driving classes at home in Surat</strong>. Whether you need help with steering control, lane estimation, or dedicated <strong>parking practice in Surat</strong> (including reverse and parallel parking), our background-verified <strong>personal driving instructor in Surat</strong> is here to help you drive with complete peace of mind.
-                  </p>
-                  <p className="text-xs text-muted leading-relaxed font-semibold">
-                    We also support preferences for a male or <strong>female driving instructor in Surat</strong>. We operate a direct service-area model (no physical branch office, we come to your location) serving neighborhoods including:
-                  </p>
+                  <div className="text-sm text-muted leading-relaxed space-y-3 font-medium">
+                    <p>
+                      Navigating the busy roads of Surat requires hands-on experience and split-second decision-making. Our local driving lessons are specifically structured to help you handle real-road conditions. Your personal driving instructor Surat will guide you through practical driving practice on crowded roads, helping you master clutch control, smooth acceleration, and defensive driving techniques.
+                    </p>
+                    <p>
+                      We provide expert instruction for both manual transmission and automatic cars, so you can practice on the specific drivetrain of your choice. Our automatic car driving classes in Surat focus on smooth throttle control, gear transitions, and lane-keeping, while our manual car driving training in Surat emphasizes gear shifts, clutch bite-point control, and hill-starts.
+                    </p>
+                    <p>
+                      With OnCar Surat, you get dedicated home driving instructor Surat support. We cover vital highway driving skills, flyover navigation, tight roundabouts, and precise reverse parking practice Surat. If you search for doorstep driving classes Surat or car driving practice Surat, OnCar provides professional, background-verified driving instruction at your doorstep. We serve popular local areas in Surat, Gujarat including Adajan, Vesu, Pal, Piplod, City Light, VIP Road, and Parle Point, ensuring you learn car driving Surat with maximum convenience and safety.
+                    </p>
+                  </div>
                 </div>
                 <div className="lg:col-span-6">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1005,6 +1044,49 @@ Payment Mode: Pay on Instructor Visit
             </div>
           </section>
 
+          {/* FAQ SECTION */}
+          <section id="faq" className="py-12 bg-white border-t border-border/40 text-left">
+            <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-w-3xl mx-auto space-y-1.5 mb-10">
+                <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                  Frequently Asked Questions
+                </h2>
+                <p className="text-xs sm:text-sm text-muted">
+                  Find answers to common questions about our personal driving instructor services in Surat.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    q: "Can I learn driving in my own car?",
+                    a: "Yes. OnCar instructors train you in your own manual or automatic car."
+                  },
+                  {
+                    q: "Is OnCar available across Surat?",
+                    a: "OnCar currently provides service in selected areas of Surat. Customers can confirm location availability during booking."
+                  },
+                  {
+                    q: "What is the trial session price?",
+                    a: "The trial driving session starts from ₹399."
+                  },
+                  {
+                    q: "Does the instructor come to my location?",
+                    a: "Yes. The instructor comes to the confirmed customer location and time slot."
+                  },
+                  {
+                    q: "Can beginners book OnCar?",
+                    a: "Yes. OnCar training is suitable for beginners and drivers who want to improve their road confidence."
+                  }
+                ].map((faq, idx) => (
+                  <div key={idx} className="p-5 rounded-2xl bg-surface border border-border/40 shadow-xs">
+                    <h3 className="text-sm sm:text-base font-black text-secondary">{faq.q}</h3>
+                    <p className="text-xs sm:text-sm text-muted font-semibold mt-2.5 leading-relaxed">{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           {/* 8. WHATSAPP CTA BANNER */}
           <section className="bg-primary py-16 text-white relative overflow-hidden">

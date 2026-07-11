@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
     // Seed admin user
     await client.query(
       "INSERT INTO users (id, email, password) VALUES ($1, $2, $3) ON CONFLICT (email) DO NOTHING",
-      [1, "admin@kaamon.in", "$2b$10$2RSIpblm74N43EtLsRwcF.xcVbplJyT5xXa5Yduh05glsKrfaj4fq"]
+      [1, "admin@kaamon.in", "$2b$10$mqqAvHcs6XTCtkC8MtCLdOO91Ein98b3JSuOmQrnciRc3PmcV1ocW"]
     );
 
     // Seed category

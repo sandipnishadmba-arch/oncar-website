@@ -1,6 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Check, ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/seo";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata({
+    title: "About OnCar | Personal Driving Instructor in Surat",
+    description: "Discover OnCar's personalized car driving coaching. Learn driving in your own manual or automatic car in Surat with a professional verified doorstep instructor.",
+    keywords: ["About OnCar", "driving instructor in Surat", "learn driving in own car", "personal driving instructor Surat", "car driving classes Surat"],
+    path: "/about",
+  });
+}
 
 export default function AboutPage() {
   return (

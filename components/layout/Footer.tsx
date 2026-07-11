@@ -37,7 +37,7 @@ export function Footer({ settings }: FooterProps) {
     <footer id="contact" className="bg-[#0B0A0F] text-white border-t border-white/5">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 text-left">
             <Link href="/" className="flex items-center gap-2.5">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
                 <Car className="h-5 w-5" aria-hidden="true" />
@@ -46,9 +46,12 @@ export function Footer({ settings }: FooterProps) {
                 On<span className="text-primary">Car</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-gray-400">
-              {tagline}. Surat city&apos;s premium driving school delivering lessons in your own car.
-            </p>
+            <div>
+              <h4 className="text-xs font-black text-gray-300">OnCar – Personal Driving Instructor in Surat</h4>
+              <p className="text-xs leading-relaxed text-gray-400 mt-1">
+                Learn driving in your own car with flexible timings and doorstep instructor support.
+              </p>
+            </div>
             <div className="mt-2">
               <Button
                 variant="whatsapp"
@@ -64,7 +67,7 @@ export function Footer({ settings }: FooterProps) {
             <h3 className="mb-4 text-xs font-black uppercase tracking-wider text-primary">
               Our Core Plans
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-left">
               <li>
                 <Link href="/#plans" className="text-sm text-gray-400 transition-colors hover:text-white">
                   Trial Class (₹399)
@@ -97,7 +100,7 @@ export function Footer({ settings }: FooterProps) {
             <h3 className="mb-4 text-xs font-black uppercase tracking-wider text-primary">
               Quick Links
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-left">
               {FOOTER_QUICK_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -115,7 +118,7 @@ export function Footer({ settings }: FooterProps) {
             <h3 className="mb-4 text-xs font-black uppercase tracking-wider text-primary">
               Contact Us
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-left">
               <li>
                 <a
                   href={formatWhatsAppLink("Hi OnCar, I want to book a driving session.", whatsappNumber)}
@@ -124,7 +127,7 @@ export function Footer({ settings }: FooterProps) {
                   className="flex items-start gap-3 text-sm text-gray-400 transition-colors hover:text-white"
                 >
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <span>{phone}</span>
+                  <span>WhatsApp: +91 9213466544</span>
                 </a>
               </li>
               <li>
@@ -144,7 +147,7 @@ export function Footer({ settings }: FooterProps) {
                   className="flex items-start gap-3 text-sm text-gray-400 transition-colors hover:text-white"
                 >
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <span>{address}</span>
+                  <span>Surat, Gujarat</span>
                 </a>
               </li>
             </ul>
@@ -152,9 +155,19 @@ export function Footer({ settings }: FooterProps) {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 md:flex-row">
-          <p className="text-xs text-gray-500">
-            &copy; {currentYear} {websiteName}. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className="text-xs text-gray-500">
+              &copy; {currentYear} {websiteName}. All rights reserved.
+            </p>
+            <div className="flex gap-4">
+              <Link href="/privacy-policy" className="text-xs text-gray-500 hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-xs text-gray-500 hover:text-white transition-colors">
+                Terms and Conditions
+              </Link>
+            </div>
+          </div>
           <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">
             Surat City Special Driving Service
           </p>

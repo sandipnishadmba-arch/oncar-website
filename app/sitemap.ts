@@ -8,24 +8,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
   const baseUrl = envUrl || settings?.url || "https://oncar.in";
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/faq`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
+  const pages = [
+    "",
+    "/about",
+    "/driving-classes-surat",
+    "/learn-driving-in-own-car",
+    "/contact",
+    "/privacy-policy",
+    "/terms",
+    "/faq",
   ];
+
+  return pages.map((page) => ({
+    url: `${baseUrl}${page}`,
+    lastModified: new Date(),
+    changeFrequency: page === "" ? "weekly" as const : "monthly" as const,
+    priority: page === "" ? 1.0 : 0.8,
+  }));
 }
