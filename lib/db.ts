@@ -146,11 +146,274 @@ export async function initDb() {
     `);
 
     await client.query("COMMIT");
+
+    // Check if services table is empty and seed if necessary
+    const checkRes = await client.query("SELECT COUNT(*) as count FROM services");
+    const count = parseInt(checkRes.rows[0].count);
+    if (count === 0) {
+      console.log("PostgreSQL database is empty. Auto-seeding default OnCar data...");
+      await seedDb(client);
+    }
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("Error initializing PostgreSQL DB tables:", err);
   } finally {
     client.release();
+  }
+}
+
+async function seedDb(client: any) {
+  try {
+    await client.query("BEGIN");
+
+    // Seed Users
+    const users = [
+      { id: 1, email: "admin@kaamon.in", password: "$2b$10$2RSIpblm74N43EtLsRwcF.xcVbplJyT5xXa5Yduh05glsKrfaj4fq" }
+    ];
+    for (const u of users) {
+      await client.query("INSERT INTO users (id, email, password) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING", [u.id, u.email, u.password]);
+    }
+
+    // Seed Categories
+    const categories = [
+      {
+        id: 1,
+        name: "Own Car Driving",
+        slug: "own-car-driving",
+        image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&fit=crop",
+        icon: "Car",
+        type: "instant",
+        display_order: 1,
+        is_active: 1
+      }
+    ];
+    for (const c of categories) {
+      await client.query(
+        "INSERT INTO categories (id, name, slug, image, icon, type, display_order, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (id) DO NOTHING",
+        [c.id, c.name, c.slug, c.image, c.icon, c.type, c.display_order, c.is_active]
+      );
+    }
+
+    // Seed Services
+    const services = [
+      {
+        id: 1,
+        category_id: 1,
+        name: "Trial Class",
+        description: "Own car driving confidence check by certified instructor. Best for first-time trial.",
+        price: 399,
+        duration: "1 Hour",
+        image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 0,
+        display_order: 1,
+        arrival_time: "Flexible",
+        is_recommended: 0,
+        features: JSON.stringify(["1 Hour Session", "Own car driving confidence check", "Instructor guidance", "Best for first-time trial"])
+      },
+      {
+        id: 2,
+        category_id: 1,
+        name: "Starter",
+        description: "Learn steering control, brake and accelerator basics, and build road confidence.",
+        price: 1299,
+        duration: "3 Hours",
+        image: "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 0,
+        display_order: 2,
+        arrival_time: "Flexible",
+        is_recommended: 0,
+        features: JSON.stringify(["3 Hours Session", "Basic steering control", "Brake & accelerator control", "Road confidence basics"])
+      },
+      {
+        id: 3,
+        category_id: 1,
+        name: "Basic",
+        description: "Learn city road practice, U-turns, parking, and build traffic confidence.",
+        price: 1999,
+        duration: "5 Hours",
+        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 0,
+        display_order: 3,
+        arrival_time: "Flexible",
+        is_recommended: 0,
+        features: JSON.stringify(["5 Hours Session", "City road practice", "Turns, U-turns", "Parking basics", "Traffic confidence"])
+      },
+      {
+        id: 4,
+        category_id: 1,
+        name: "Popular",
+        description: "Comprehensive package including city traffic driving, reverse practice, and flyovers.",
+        price: 3999,
+        duration: "10 Hours",
+        image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 1,
+        display_order: 4,
+        arrival_time: "Flexible",
+        is_recommended: 1,
+        features: JSON.stringify(["10 Hours Session", "City traffic driving", "Reverse & parking practice", "U-turn & flyover driving", "Real road confidence", "Personalized guidance"])
+      },
+      {
+        id: 5,
+        category_id: 1,
+        name: "Premium",
+        description: "Advanced practice including highway basics, night driving, parallel and reverse parking.",
+        price: 5799,
+        duration: "15 Hours",
+        image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 0,
+        display_order: 5,
+        arrival_time: "Flexible",
+        is_recommended: 0,
+        features: JSON.stringify(["15 Hours Session", "Everything in Popular", "Heavy traffic practice", "Parallel & reverse parking", "Highway basics", "Night driving basics"])
+      },
+      {
+        id: 6,
+        category_id: 1,
+        name: "Confidence+",
+        description: "Ultimate practice sessions for daily routes and extreme traffic before driving alone.",
+        price: 7499,
+        duration: "20 Hours",
+        image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=500&fit=crop",
+        is_active: 1,
+        is_featured: 1,
+        is_popular: 0,
+        display_order: 6,
+        arrival_time: "Flexible",
+        is_recommended: 0,
+        features: JSON.stringify(["20 Hours Session", "Everything in Premium", "Extra practice on weak areas", "Daily route practice", "Advanced confidence training", "Ideal before driving alone"])
+      }
+    ];
+    for (const s of services) {
+      await client.query(
+        "INSERT INTO services (id, category_id, name, description, price, duration, image, is_active, is_featured, is_popular, display_order, arrival_time, is_recommended, features) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) ON CONFLICT (id) DO NOTHING",
+        [s.id, s.category_id, s.name, s.description, s.price, s.duration, s.image, s.is_active, s.is_featured, s.is_popular, s.display_order, s.arrival_time, s.is_recommended, s.features]
+      );
+    }
+
+    // Seed Site Settings
+    const siteSettings = [
+      { key: "website_name", value: "OnCar" },
+      { key: "logo_text", value: "OnCar" },
+      { key: "tagline", value: "Your Car. Your Time. OnCar." },
+      { key: "email", value: "info@oncar.in" },
+      { key: "phone", value: "+919213466544" },
+      { key: "whatsapp_number", value: "+919213466544" },
+      { key: "address", value: "Surat City, Gujarat, India" },
+      { key: "google_maps_url", value: "https://maps.google.com/?q=Surat,Gujarat" },
+      { key: "serving_text", value: "Serving Only Surat City" },
+      { key: "available_time_slots", value: JSON.stringify(["07:00 AM","08:00 AM","09:00 AM","10:00 AM","05:00 PM","06:00 PM","07:00 PM","08:00 PM","09:00 PM","Custom Time"]) },
+      { key: "advance_booking_days", value: "7" },
+      { key: "hero_title", value: "Learn Driving in Your Own Car in Surat" },
+      { key: "hero_subtitle", value: "Verified instructor aapke ghar/location par aakar aapki own car me confidence driving sikhayega. Surat city ke liye premium driving learning service." },
+      { key: "hero_image", value: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop" },
+      { key: "about_title", value: "About OnCar" },
+      { key: "about_text", value: "OnCar brings professional driving classes directly to your doorstep in Surat. Why learn in a school car when you have to drive your own car?" },
+      { key: "whatsapp_cta_text", value: "Book Trial" },
+      { key: "plans_cta_text", value: "See Plans" },
+      { key: "video_url", value: "" },
+      { key: "video_enabled", value: "false" },
+      { key: "payment_qr_url", value: JSON.stringify("/uploads/payment_qr.png") },
+      { key: "payment_upi_id", value: JSON.stringify("9075425764@axl") },
+      { key: "payment_upi_name", value: JSON.stringify("SONAM SURESH MALLAH") },
+      { key: "trust_badges", value: JSON.stringify([{"title":"Apni Car Practice","description":"Learn in the car you actually own and will drive daily","icon":"Car"},{"title":"Apne Time Par","description":"Schedule sessions at your convenience, no fixed timings","icon":"Clock"},{"title":"Verified Instructors","description":"Professional, background-verified guidance at your doorstep","icon":"UserCheck"},{"title":"Home Pick & Drop","description":"Instructor picks you up from your doorstep in Surat","icon":"MapPin"}]) },
+      { key: "testimonials", value: JSON.stringify([{"id":1,"name":"Rajesh Patel","location":"Adajan, Surat","rating":5,"text":"Excellent training! The instructor was very patient. Learning in my own Creta was the best decision.","service":"10 Hours Package"},{"id":2,"name":"Priya Shah","location":"Vesu, Surat","rating":5,"text":"I had extreme driving anxiety. OnCar's structured sessions helped me build great confidence in traffic.","service":"15 Hours Package"},{"id":3,"name":"Amit Desai","location":"Pal, Surat","rating":5,"text":"Convenient home pickup and early morning sessions. Highly recommend OnCar for busy professionals.","service":"Trial Class"},{"id":4,"name":"Neha Mehta","location":"City Light, Surat","rating":5,"text":"Great reverse parking and turning practice. Very reliable service in Surat.","service":"5 Hours Package"}]) },
+      { key: "faqs", value: JSON.stringify([{"question":"Kya meri own car me sikhayenge?","answer":"Haan, hum sirf aapki apni (own) car me hi driving sikhate hain taaki aapko apni car chalane me real-world confidence mile."},{"question":"Instructor ghar par aayega?","answer":"Haan, verified instructor aapke ghar ya preferred location par aakar aapko pick up karega."},{"question":"Trial class available hai?","answer":"Haan, Trial Class sirf ₹399 me available hai jisme aap 1 hour ki driving confidence check aur instructor guidance le sakte hain."},{"question":"Automatic car ke liye available hai?","answer":"Haan, hum Manual aur Automatic dono types ki cars ke liye driving training provide karte hain."},{"question":"Surat me kaunse areas cover hain?","answer":"Hum Surat ke sabhi major areas cover karte hain jaise Adajan, Vesu, Pal, Piplod, Katargam, Varachha, Jahangirpura, etc."},{"question":"Payment kaise hoga?","answer":"Aap booking confirm hone ke baad online UPI ya cash ke through instructor ko direct payment kar sakte hain."}]) },
+      { key: "razorpay_enabled", value: "true" },
+      { key: "razorpay_key_id", value: "rzp_test_L4eY8uYtF6Gq1d" },
+      { key: "url", value: "https://oncar.in" },
+      { key: "meta_title", value: "OnCar Surat | Learn Driving in Your Own Car" },
+      { key: "meta_description", value: "Learn driving in your own car in Surat with a personal verified instructor. Flexible timing, doorstep training, parking and city traffic practice. Book OnCar on WhatsApp." },
+      { key: "meta_keywords", value: "own car driving classes Surat, learn driving in your own car Surat, personal driving instructor Surat, driving classes at home Surat, car driving training Surat, female driving instructor Surat, automatic car driving classes Surat, manual car driving classes Surat, parking practice Surat, OnCar Surat" },
+      { key: "og_image", value: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop" }
+    ];
+    for (const s of siteSettings) {
+      await client.query("INSERT INTO site_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING", [s.key, s.value]);
+    }
+
+    // Seed Offers
+    const offers = [
+      {
+        id: 1870,
+        title: "First Drive Discount",
+        subtitle: "Flat ₹100 OFF on your first driving learning plan!",
+        code: "FIRSTDRIVE",
+        image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&fit=crop",
+        start_date: null,
+        end_date: null,
+        is_active: 1,
+        display_order: 1,
+        target_url: "/#plans",
+        cta_text: "Book Now",
+        service_id: null,
+        category_id: 1,
+        discount_type: "flat",
+        discount_value: 100,
+        max_discount: 100,
+        min_order_amount: 1000,
+        status: "visible",
+        usage_limit: null,
+        created_by: "admin@oncar.in",
+        updated_by: "admin@kaamon.in",
+        created_at: "2026-07-10 10:53:06",
+        updated_at: "2026-07-11 09:24:06"
+      },
+      {
+        id: 1871,
+        title: "Trial Class Special",
+        subtitle: "Book a 1-hour Trial Class for just ₹299 (Flat ₹100 off)!",
+        code: "TRIAL100",
+        image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&fit=crop",
+        start_date: null,
+        end_date: null,
+        is_active: 1,
+        display_order: 2,
+        target_url: "/#plans",
+        cta_text: "Claim Offer",
+        service_id: 1,
+        category_id: 1,
+        discount_type: "flat",
+        discount_value: 100,
+        max_discount: 100,
+        min_order_amount: 399,
+        status: "visible",
+        usage_limit: null,
+        created_by: "admin@oncar.in",
+        updated_by: "admin@oncar.in",
+        created_at: "2026-07-10 10:53:06",
+        updated_at: "2026-07-10 10:53:06"
+      }
+    ];
+    for (const o of offers) {
+      await client.query(
+        "INSERT INTO offers (id, title, subtitle, code, image, start_date, end_date, is_active, display_order, target_url, cta_text, service_id, category_id, discount_type, discount_value, max_discount, min_order_amount, status, usage_limit, created_by, updated_by, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23) ON CONFLICT (id) DO NOTHING",
+        [o.id, o.title, o.subtitle, o.code, o.image, o.start_date, o.end_date, o.is_active, o.display_order, o.target_url, o.cta_text, o.service_id, o.category_id, o.discount_type, o.discount_value, o.max_discount, o.min_order_amount, o.status, o.usage_limit, o.created_by, o.updated_by, o.created_at, o.updated_at]
+      );
+    }
+
+    // Reset sequences
+    const sequences = ['users_id_seq', 'categories_id_seq', 'services_id_seq', 'bookings_id_seq', 'offers_id_seq', 'service_discounts_id_seq'];
+    const tables = ['users', 'categories', 'services', 'bookings', 'offers', 'service_discounts'];
+    for (let i = 0; i < tables.length; i++) {
+      const maxRes = await client.query(`SELECT MAX(id) as max_id FROM ${tables[i]}`);
+      const maxId = maxRes.rows[0].max_id || 0;
+      await client.query(`SELECT setval('${sequences[i]}', ${maxId + 1}, false)`);
+    }
+
+    await client.query("COMMIT");
+    console.log("OnCar PostgreSQL Database Seeding Completed Successfully!");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Database seeding failed:", err);
   }
 }
 
