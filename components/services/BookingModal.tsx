@@ -214,11 +214,11 @@ export function BookingModal({ isOpen, onClose, service, settings }: BookingModa
       const resData = await response.json();
       if (resData.success && resData.booking) {
         try {
-          const localBookingsStr = localStorage.getItem("kaamon_bookings") || "[]";
+          const localBookingsStr = localStorage.getItem("oncar_bookings") || "[]";
           const localBookings = JSON.parse(localBookingsStr);
           localBookings.unshift(resData.booking);
-          localStorage.setItem("kaamon_bookings", JSON.stringify(localBookings));
-          localStorage.setItem("kaamon_user_phone", formData.phone);
+          localStorage.setItem("oncar_bookings", JSON.stringify(localBookings));
+          localStorage.setItem("oncar_user_phone", formData.phone);
         } catch (e) {
           console.error("Local storage error:", e);
         }

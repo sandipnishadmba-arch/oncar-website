@@ -119,7 +119,7 @@ export function ContactForm({ categories, settings }: ContactFormProps) {
     <Section id="contact" className="py-10 bg-white">
       <SectionHeader
         eyebrow="Get In Touch"
-        title="Contact KaamOn Team"
+        title="Contact OnCar Team"
         description="Have custom requirements or need immediate assistance? Send a message to our support desk."
       />
 

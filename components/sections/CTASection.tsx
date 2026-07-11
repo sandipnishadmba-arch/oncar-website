@@ -14,7 +14,7 @@ interface CTASectionProps {
 export function CTASection({
   title = "Ready to get started?",
   description = "Get instant service confirmation or a free site visit from Surat's trusted professionals. Book easily on WhatsApp with upfront pricing.",
-  whatsappMessage = "Hi KaamOn! I'd like to book a service.",
+  whatsappMessage = "Hi OnCar! I'd like to book a service.",
   whatsappNumber,
 }: CTASectionProps) {
   const whatsappLink = formatWhatsAppLink(whatsappMessage, whatsappNumber);

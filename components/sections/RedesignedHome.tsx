@@ -125,8 +125,8 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
 
   const fetchUserBookings = useCallback(async () => {
     try {
-      const phone = localStorage.getItem("kaamon_user_phone");
-      const localBookingsStr = localStorage.getItem("kaamon_bookings") || "[]";
+      const phone = localStorage.getItem("oncar_user_phone");
+      const localBookingsStr = localStorage.getItem("oncar_bookings") || "[]";
       const localBookings = JSON.parse(localBookingsStr);
 
       if (phone) {
@@ -230,7 +230,7 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
       // Empty fallback list
       return [{
         id: 0,
-        title: "KaamOn Services",
+        title: "OnCar Services",
         subtitle: "Best home care in Surat",
         code: "WELCOME",
         target_url: null,
@@ -1107,7 +1107,7 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
               </a>
 
               <a
-                href={formatWhatsAppLink("Hi! I need help with my KaamOn booking in Surat.", settings.whatsapp_number)}
+                href={formatWhatsAppLink("Hi! I need help with my OnCar booking in Surat.", settings.whatsapp_number)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 p-3.5 rounded-2xl border border-border bg-white shadow-2xs hover:border-primary transition-colors text-left"
@@ -1127,7 +1127,7 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
               <div className="space-y-2">
                 {[
                   { q: "How quickly can a service professional arrive?", a: "For instant bookings, a professional will arrive at your address in Surat within 30 to 60 minutes. You can also schedule a convenient 2-hour slot." },
-                  { q: "Are the prices listed on KaamOn fixed?", a: "Yes, all prices under Instant Services are fully fixed. For larger projects like Modular Kitchen or Renovation, we provide a free site inspection and customized digital quotes." },
+                  { q: "Are the prices listed on OnCar fixed?", a: "Yes, all prices under Instant Services are fully fixed. For larger projects like Modular Kitchen or Renovation, we provide a free site inspection and customized digital quotes." },
                   { q: "How do I pay for completed jobs?", a: "You can pay the professional directly via Cash or any UPI app (GPay, PhonePe, Paytm) after the service is successfully finished." },
                   { q: "What if I need to cancel my booking?", a: "You can cancel or reschedule easily by calling our support line or replying to the WhatsApp confirmation link." }
                 ].map((item, idx) => (
@@ -1151,7 +1151,7 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
                 KO
               </div>
               <div>
-                <h3 className="text-xs font-black text-primary">KaamOn Customer</h3>
+                <h3 className="text-xs font-black text-primary">OnCar Customer</h3>
                 <p className="text-[10px] text-muted mt-0.5">Surat City, Gujarat</p>
               </div>
             </div>
@@ -1164,7 +1164,7 @@ export function RedesignedHome({ categories, services, settings, offers }: Redes
                 {[
                   { label: "Saved Addresses", detail: "Vesu, Adajan, Pal, Piplod", icon: MapPin },
                   { label: "Notification Preferences", detail: "WhatsApp & SMS notifications active", icon: Bell },
-                  { label: "KaamOn Support Hotline", detail: "+91 9213466544", icon: Phone },
+                  { label: "OnCar Support Hotline", detail: "+91 9213466544", icon: Phone },
                 ].map((item, idx) => {
                   const Icon = item.icon;
                   return (

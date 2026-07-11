@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { GlobalSearchProvider } from "@/components/search/GlobalSearchProvider";
@@ -22,6 +23,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#3B82F6",
 };
 
 export async function generateMetadata() {
@@ -65,7 +67,9 @@ export default async function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="font-sans pb-16 lg:pb-0">
         <GlobalSearchProvider settings={settings}>
@@ -73,6 +77,7 @@ export default async function RootLayout({
           <Navbar settings={settings} />
           <main>{children}</main>
           <Footer settings={settings} />
+          <WhatsAppFloat settings={settings} />
 
           <Suspense fallback={null}>
             <MobileBottomNav />

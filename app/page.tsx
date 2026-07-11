@@ -134,6 +134,7 @@ function HomeContent() {
   const [reserveTime, setReserveTime] = useState("");
   const [customTime, setCustomTime] = useState<string>("");
   const [selectedSlot, setSelectedSlot] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [customerLocation, setCustomerLocation] = useState<string>("");
   const [localBookings, setLocalBookings] = useState<any[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<any | null>(null);
@@ -177,7 +178,7 @@ function HomeContent() {
   };
 
   const isCtaActive = reserveDate !== "" && reserveTime !== "" && (reserveTime !== "Custom Time" || customTime.trim() !== "");
-  const isModalBookingValid = selectedSlot !== "" && customerLocation.trim() !== "" && (selectedSlot !== "Custom Time" || customTime.trim() !== "");
+  const isModalBookingValid = selectedDate !== "" && selectedSlot !== "" && customerLocation.trim() !== "" && (selectedSlot !== "Custom Time" || customTime.trim() !== "");
 
   // Manage body scroll lock during modal visibility
   useEffect(() => {
@@ -242,7 +243,7 @@ Please confirm my booking.`;
     setLocalBookings(updatedBookings);
     localStorage.setItem("oncar_bookings", JSON.stringify(updatedBookings));
 
-    const whatsappUrl = formatWhatsAppLink(message, getSettingVal("whatsapp_number", "9213466544"));
+    const whatsappUrl = formatWhatsAppLink(message, getSettingVal("whatsapp_number", "+919213466544"));
     // Direct open WhatsApp app — no new tab/page opens on mobile
     window.location.href = whatsappUrl;
   };
@@ -250,8 +251,9 @@ Please confirm my booking.`;
   // Open booking modal
   const handleOpenBooking = (plan: any) => {
     setSelectedPlan(plan);
-    setSelectedSlot("");
-    setCustomTime("");
+    setSelectedDate(reserveDate || "");
+    setSelectedSlot(reserveTime || "");
+    setCustomTime(customTime || "");
     setCustomerLocation("");
     setCouponCode("");
     setAppliedCoupon(null);
@@ -266,12 +268,22 @@ Please confirm my booking.`;
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedPlan(null);
+    setSelectedDate("");
+    setSelectedSlot("");
+    setCustomTime("");
     setCouponCode("");
     setAppliedCoupon(null);
     setCouponError(null);
     setCouponSuccess(null);
     setBookingStep("details");
     setPaymentAppUsed("");
+
+    // Clear search parameters from URL so clicking "Book Trial" in the Navbar works again
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("bookPlan");
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   // Calculate dynamic discount and final price
@@ -341,7 +353,8 @@ Please confirm my booking.`;
   const handleConfirmBooking = () => {
     if (!isModalBookingValid) return;
     
-    setBookingStep("animating");
+    // Set confirmed state immediately
+    setBookingStep("confirmed");
 
     let timeSlotString = selectedSlot;
     if (selectedSlot === "Custom Time") {
@@ -357,7 +370,7 @@ Please confirm my booking.`;
       planName: selectedPlan.name,
       price: finalPayable.toLocaleString("en-IN"),
       duration: selectedPlan.duration,
-      timeSlot: timeSlotString,
+      timeSlot: `${selectedDate} @ ${timeSlotString}`,
       location: customerLocation || "Not specified",
       date: currentDate,
       time: currentTime,
@@ -376,25 +389,20 @@ Please confirm my booking.`;
 --------------------------
 Plan: ${selectedPlan.name}
 Duration: ${selectedPlan.duration}
+Preferred Date: ${selectedDate}
 Preferred Slot: ${timeSlotString}
 Location: ${customerLocation || "Not specified"}
-Date: ${currentDate}
-Time: ${currentTime}
+Booking Date: ${currentDate}
+Booking Time: ${currentTime}
 Total Price: ₹${finalPayable.toLocaleString("en-IN")}
 Payment Mode: Pay on Instructor Visit
 
 *Note: Instructor visit ke time par payment directly pay karenge, uske baad class start hogi.*`;
 
-    const whatsappUrl = formatWhatsAppLink(receiptMessage, getSettingVal("whatsapp_number", "9213466544"));
+    const whatsappUrl = formatWhatsAppLink(receiptMessage, getSettingVal("whatsapp_number", "+919213466544"));
 
-    // After animation: set confirmed state FIRST, then open WhatsApp app directly
-    setTimeout(() => {
-      setBookingStep("confirmed");
-      // Small delay so confirmed UI renders before WhatsApp app opens
-      setTimeout(() => {
-        window.location.href = whatsappUrl;
-      }, 400);
-    }, 3200);
+    // Redirect synchronously inside user-triggered onClick handler to avoid browser custom protocol security block
+    window.location.href = whatsappUrl;
   };
 
   // Dynamic values
@@ -896,101 +904,51 @@ Payment Mode: Pay on Instructor Visit
             </section>
           )}
 
-          {/* 6. VERIFIED INSTRUCTOR SECTION */}
-          <section className="py-20 bg-white">
+
+          {/* SERVICE AREAS LOCAL SEO SECTION */}
+          <section id="service-areas" className="py-12 bg-surface border-y border-border/40 text-left">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
-                
-                {/* Left Text Column */}
-                <div className="lg:col-span-7 space-y-6">
-                  <h2 className="text-xs font-black text-primary uppercase tracking-widest">Safety & Guidance</h2>
-                  <p className="text-3xl sm:text-4xl font-black text-secondary tracking-tight leading-tight">
-                    Learn Safely with Verified & Patient Instructors
+              <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+                <div className="lg:col-span-6 space-y-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-wider">
+                    Local Driving Lessons
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
+                    Own Car Driving Classes in Surat
+                  </h2>
+                  <p className="text-sm text-muted leading-relaxed">
+                    OnCar provides premium <strong>car driving training in Surat</strong>. We offer custom structured programs like <strong>automatic car driving classes in Surat</strong> and <strong>manual car driving classes in Surat</strong>, tailored specifically to your skill level. 
                   </p>
                   <p className="text-sm text-muted leading-relaxed">
-                    Driving requires patience and technical understanding. Our pool of instructors is selected after strict background verifications and driving audits. They are trained to make you learn at your own pace without panic.
+                    With our doorstep pick-and-drop service, you get professional <strong>driving classes at home in Surat</strong>. Whether you need help with steering control, lane estimation, or dedicated <strong>parking practice in Surat</strong> (including reverse and parallel parking), our background-verified <strong>personal driving instructor in Surat</strong> is here to help you drive with complete peace of mind.
                   </p>
-                  
-                  <ul className="grid gap-3 sm:grid-cols-2 pt-2">
-                    {[
-                      "100% Background Verified Profiles",
-                      "Professional & Patient Demeanor",
-                      "Expert in Manual & Automatic Cars",
-                      "Traffic Law & Safety Experts",
-                      "Surat Route Local Specialists",
-                      "Dual-Control Safety Audits",
-                    ].map((text, idx) => (
-                      <li key={idx} className="flex items-center gap-2.5 text-xs text-muted font-bold">
-                        <div className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                          <Check className="h-3 w-3" />
-                        </div>
-                        <span>{text}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-xs text-muted leading-relaxed font-semibold">
+                    We also support preferences for a male or <strong>female driving instructor in Surat</strong>. We operate a direct service-area model (no physical branch office, we come to your location) serving neighborhoods including:
+                  </p>
                 </div>
-
-                {/* Right Image Column */}
-                <div className="lg:col-span-5 relative flex justify-center">
-                  <div className="relative w-full max-w-[450px] aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border-4 border-white">
-                    <Image 
-                      src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&fit=crop"
-                      alt="Verified instructor safety guidance"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-6 left-6 bg-primary text-white text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full shadow-lg">
-                      Safety First
-                    </div>
+                <div className="lg:col-span-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      "Adajan",
+                      "Vesu",
+                      "Piplod",
+                      "VIP Road",
+                      "City Light",
+                      "Pal",
+                      "Parle Point",
+                      "Surat, Gujarat",
+                    ].map((area, idx) => (
+                      <div key={idx} className="p-3 bg-white rounded-xl border border-border/70 shadow-xs text-center flex items-center justify-center gap-2">
+                        <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
+                        <span className="text-xs font-bold text-secondary">{area}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 7. TESTIMONIALS SECTION */}
-          {getTestimonials().length > 0 && (
-            <section className="py-12 bg-surface">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto space-y-1.5 mb-10">
-                  <h2 className="text-xs font-black text-primary uppercase tracking-widest">Learner Feedback</h2>
-                  <p className="text-2xl sm:text-3xl font-black text-secondary tracking-tight">
-                    What Our Learners Say About Us
-                  </p>
-                </div>
-
-                {/* Testimonial snap slider */}
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-none">
-                  {getTestimonials().map((testimonial: any, idx: number) => (
-                    <div 
-                      key={idx} 
-                      className="flex flex-col justify-between shrink-0 w-[85vw] sm:w-[360px] p-6 bg-white rounded-2xl border border-border/80 shadow-xs snap-center text-left"
-                    >
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-1 text-amber-500">
-                          {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
-                            <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                          ))}
-                        </div>
-                        <p className="text-xs sm:text-sm text-muted font-medium italic leading-relaxed">&quot;{testimonial.text}&quot;</p>
-                      </div>
-                      <div className="mt-5 pt-4 border-t border-border/60 flex justify-between items-center text-xs">
-                        <div>
-                          <span className="font-black text-secondary block">{testimonial.name}</span>
-                          <span className="text-[10px] text-muted">{testimonial.location}</span>
-                        </div>
-                        {testimonial.service && (
-                          <span className="text-[10px] bg-primary/10 text-primary border border-primary/20 rounded-full px-2 py-0.5 font-bold">
-                            {testimonial.service}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
 
           {/* 8. WHATSAPP CTA BANNER */}
           <section className="bg-primary py-16 text-white relative overflow-hidden">
@@ -1066,6 +1024,10 @@ Payment Mode: Pay on Instructor Visit
                     <span className="text-primary font-black">₹{calculatePayablePrice().toLocaleString("en-IN")}</span>
                   </div>
                   <div className="flex justify-between border-b border-border/40 pb-1.5">
+                    <span>Date:</span>
+                    <span className="text-secondary">{selectedDate}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-border/40 pb-1.5">
                     <span>Time Slot:</span>
                     <span className="text-secondary">{selectedSlot === "Custom Time" && customTime ? customTime : selectedSlot}</span>
                   </div>
@@ -1139,6 +1101,10 @@ Payment Mode: Pay on Instructor Visit
                   <div className="flex justify-between border-b border-border/40 pb-1.5">
                     <span>Payable Price:</span>
                     <span className="text-primary font-black">₹{calculatePayablePrice().toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-border/40 pb-1.5">
+                    <span>Date:</span>
+                    <span className="text-secondary">{selectedDate}</span>
                   </div>
                   <div className="flex justify-between border-b border-border/40 pb-1.5">
                     <span>Time Slot:</span>
@@ -1290,6 +1256,21 @@ Payment Mode: Pay on Instructor Visit
                   <div className="bg-amber-50/70 border border-amber-200/50 rounded-xl p-3 flex justify-between items-center text-[10px] font-black text-amber-800">
                     <span>⚡ Pay on Visit / Cash or UPI</span>
                     <span>No Advance Payment Required</span>
+                  </div>
+
+                  {/* Date Selection */}
+                  <div className="space-y-1.5 text-left">
+                    <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Select Preferred Date</label>
+                    <input 
+                      type="date"
+                      value={selectedDate}
+                      onChange={(e) => {
+                        setSelectedDate(e.target.value);
+                        e.target.blur();
+                      }}
+                      min={new Date().toISOString().split("T")[0]}
+                      className="w-full px-4 py-3 rounded-xl border border-border text-xs font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all cursor-pointer bg-white text-secondary"
+                    />
                   </div>
 
                   {/* Time Slot Selection */}

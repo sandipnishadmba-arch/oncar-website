@@ -20,12 +20,15 @@ export function generatePageMetadata({
   siteName = SITE_CONFIG.name,
   siteUrl = SITE_CONFIG.url,
 }: PageSEO): Metadata {
+  const resolvedSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || siteUrl;
   const fullTitle =
-    path === "/"
+    path === "/" && title
+      ? title
+      : path === "/"
       ? `${siteName} | ${SITE_CONFIG.tagline}`
       : `${title} | ${siteName}`;
 
-  const url = `${siteUrl}${path}`;
+  const url = `${resolvedSiteUrl}${path}`;
 
   return {
     title: fullTitle,
@@ -88,7 +91,7 @@ export function generateServiceMetadata(
       ...keywords,
       `${serviceName} Surat`,
       `${serviceName} services Gujarat`,
-      "worker on demand Surat",
+      "own car driving classes Surat",
       siteName,
     ],
     path: `/services/${slug}`,

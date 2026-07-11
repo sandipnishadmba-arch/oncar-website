@@ -16,7 +16,7 @@ interface HeroProps {
 }
 
 export function Hero({ settings }: HeroProps) {
-  const whatsappMsg = "Hi KaamOn! I would like to book a service.";
+  const whatsappMsg = "Hi OnCar! I would like to book a service.";
   const whatsappLink = formatWhatsAppLink(whatsappMsg, settings.whatsapp_number);
 
   const shortcuts = [
@@ -77,7 +77,7 @@ export function Hero({ settings }: HeroProps) {
           <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-xl">
             <Image
               src={settings.hero_image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&h=700&fit=crop"}
-              alt="KaamOn worker on demand in Surat"
+              alt="OnCar worker on demand in Surat"
               fill
               priority
               className="object-cover"

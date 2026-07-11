@@ -919,8 +919,8 @@ export function OffersManager({ initialOffers, categories, initialDiscounts, ser
                           
                           {/* Audit logs */}
                           <div className="border-t border-border/40 pt-1 mt-1 text-[10px] text-muted space-y-0.5">
-                            <div>Created By: <span className="font-semibold text-muted-foreground">{o.created_by || "admin@kaamon.in"}</span></div>
-                            <div>Updated By: <span className="font-semibold text-muted-foreground">{o.updated_by || "admin@kaamon.in"}</span></div>
+                            <div>Created By: <span className="font-semibold text-muted-foreground">{o.created_by || "admin@oncar.in"}</span></div>
+                            <div>Updated By: <span className="font-semibold text-muted-foreground">{o.updated_by || "admin@oncar.in"}</span></div>
                             {o.created_at && <div>Created At: <span className="font-semibold text-muted-foreground">{new Date(o.created_at).toLocaleString()}</span></div>}
                             {o.updated_at && <div>Updated At: <span className="font-semibold text-muted-foreground">{new Date(o.updated_at).toLocaleString()}</span></div>}
                           </div>

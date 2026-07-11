@@ -21,10 +21,10 @@ export function WhyChooseUs({ settings }: WhyChooseUsProps) {
     <Section id="about" className="py-10 bg-white">
       <div className="mx-auto max-w-5xl px-4 text-center">
         <span className="mb-2 inline-block text-xs font-semibold uppercase tracking-widest text-secondary">
-          KaamOn Trust
+          OnCar Trust
         </span>
         <h2 className="text-2xl font-bold text-primary sm:text-3xl">
-          Why Surat Trusts KaamOn
+          Why Surat Trusts OnCar
         </h2>
         <p className="mt-2 text-xs text-muted max-w-xl mx-auto">
           {settings.about_text || "We bring professional, background-verified home service workers directly to your doorstep in Surat."}

@@ -3,8 +3,16 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LayoutDashboard, Wrench, FolderKanban, CalendarRange, Settings, LogOut, ShieldAlert } from "lucide-react";
 import { headers } from "next/headers";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function AdminLayout({
   children,
@@ -39,10 +47,10 @@ export default async function AdminLayout({
         <div>
           <div className="p-6 border-b border-white/10 flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-primary font-bold">
-              K
+              O
             </div>
             <div>
-              <span className="text-lg font-bold block leading-tight">KaamOn</span>
+              <span className="text-lg font-bold block leading-tight">OnCar</span>
               <span className="text-[10px] text-white/50 block">Management Panel</span>
             </div>
           </div>

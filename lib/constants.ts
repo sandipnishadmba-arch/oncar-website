@@ -13,8 +13,8 @@ export const SITE_CONFIG = {
   url: "https://oncar.in",
   ogImage:
     "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1200&h=630&fit=crop",
-  phone: "+91 9213466544",
-  whatsapp: "+91 9213466544",
+  phone: "+919213466544",
+  whatsapp: "+919213466544",
   email: "info@oncar.in",
   address: "Surat City, Gujarat, India",
   googleMapsUrl: "https://maps.google.com/?q=Surat,Gujarat",

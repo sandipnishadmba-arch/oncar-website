@@ -46,7 +46,7 @@ export function AdminLoginForm() {
           <ShieldCheck className="h-6 w-6" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-primary">
-          KaamOn Admin Portal
+          OnCar Admin Portal
         </h2>
         <p className="mt-2 text-center text-sm text-muted">
           Log in to manage your services, pricing, and settings
@@ -76,7 +76,7 @@ export function AdminLoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@kaamon.in"
+                placeholder="admin@oncar.in"
                 className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-secondary"
               />
             </div>

@@ -64,13 +64,27 @@ export default function AboutPage() {
             <div className="relative w-full aspect-square max-w-[320px] rounded-[32px] overflow-hidden shadow-2xl border-4 border-white">
               <Image 
                 src="https://images.unsplash.com/photo-1506015391300-4802dc74de2e?w=800&fit=crop"
-                alt="Own car driving training"
+                alt="Personal driving instructor teaching a learner in their own car in Surat"
                 fill
+                sizes="(max-width: 768px) 100vw, 320px"
                 className="object-cover"
               />
             </div>
           </div>
 
+        </div>
+
+        {/* Brand Story Section */}
+        <div className="mt-16 p-8 bg-gradient-to-br from-primary/10 via-primary/5 to-surface rounded-[32px] border border-primary/10 text-center space-y-4">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
+            Brand Story
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black text-secondary tracking-tight">
+            Your Car. Your Time. OnCar.
+          </h2>
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-muted leading-relaxed font-medium">
+            At OnCar, we believe that true driving confidence comes from familiarity and comfort. That is why we broke away from conventional driving schools that teach you on dummy control cars. We meet you at your doorstep, train you in <strong>your own car</strong>, on <strong>your own schedule</strong>. That is the OnCar promise.
+          </p>
         </div>
 
       </div>

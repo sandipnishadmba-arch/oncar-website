@@ -1,12 +1,26 @@
 import type { MetadataRoute } from "next";
-import { SITE_CONFIG } from "@/lib/constants";
+import { getSettings } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export default function robots(): MetadataRoute.Robots {
+  const settings = getSettings() as any;
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
+  const baseUrl = envUrl || settings?.url || "https://oncar.in";
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: [
+        "/admin",
+        "/admin/",
+        "/admin/*",
+        "/api",
+        "/api/",
+        "/api/*",
+      ],
     },
-    sitemap: `${SITE_CONFIG.url}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

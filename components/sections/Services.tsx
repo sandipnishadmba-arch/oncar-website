@@ -51,7 +51,7 @@ export function Services({ categories, services, settings }: ServicesProps) {
       {/* Search & Main Categories Section */}
       <Section id="instant-services" className="pt-6 pb-12 bg-white">
         <SectionHeader
-          eyebrow="KaamOn App"
+          eyebrow="OnCar App"
           title="Select Category to Book"
           description="Instant verified local professionals at your service. Serving only Surat City."
         />

@@ -48,7 +48,7 @@ export default async function DashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-primary">Dashboard Overview</h1>
-        <p className="text-muted text-sm mt-1">Real-time statistics and bookings for KaamOn Surat.</p>
+        <p className="text-muted text-sm mt-1">Real-time statistics and bookings for OnCar Surat.</p>
       </div>
 
       {/* Grid of Stats Cards */}
