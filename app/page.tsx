@@ -136,6 +136,10 @@ function HomeContent() {
   const [selectedSlot, setSelectedSlot] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState("");
   const [customerLocation, setCustomerLocation] = useState<string>("");
+  const [customerName, setCustomerName] = useState<string>("");
+  const [customerPhone, setCustomerPhone] = useState<string>("");
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [bookingSubmitting, setBookingSubmitting] = useState(false);
   const [localBookings, setLocalBookings] = useState<any[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -178,7 +182,7 @@ function HomeContent() {
   };
 
   const isCtaActive = reserveDate !== "" && reserveTime !== "" && (reserveTime !== "Custom Time" || customTime.trim() !== "");
-  const isModalBookingValid = selectedDate !== "" && selectedSlot !== "" && customerLocation.trim() !== "" && (selectedSlot !== "Custom Time" || customTime.trim() !== "");
+  const isModalBookingValid = selectedDate !== "" && selectedSlot !== "" && customerLocation.trim() !== "" && customerName.trim() !== "" && customerPhone.trim().length >= 10 && (selectedSlot !== "Custom Time" || customTime.trim() !== "");
 
   // Manage body scroll lock during modal visibility
   useEffect(() => {
@@ -255,6 +259,10 @@ Please confirm my booking.`;
     setSelectedSlot(reserveTime || "");
     setCustomTime(customTime || "");
     setCustomerLocation("");
+    setCustomerName("");
+    setCustomerPhone("");
+    setBookingError(null);
+    setBookingSubmitting(false);
     setCouponCode("");
     setAppliedCoupon(null);
     setCouponError(null);
@@ -271,6 +279,11 @@ Please confirm my booking.`;
     setSelectedDate("");
     setSelectedSlot("");
     setCustomTime("");
+    setCustomerName("");
+    setCustomerPhone("");
+    setCustomerLocation("");
+    setBookingError(null);
+    setBookingSubmitting(false);
     setCouponCode("");
     setAppliedCoupon(null);
     setCouponError(null);
@@ -349,12 +362,12 @@ Please confirm my booking.`;
     setCouponError(null);
   };
 
-  // Trigger booking confirmation and redirect directly to WhatsApp
-  const handleConfirmBooking = () => {
-    if (!isModalBookingValid) return;
-    
-    // Set confirmed state immediately
-    setBookingStep("confirmed");
+  // Trigger booking confirmation: save to DB first, then open WhatsApp
+  const handleConfirmBooking = async () => {
+    if (!isModalBookingValid || bookingSubmitting) return;
+
+    setBookingError(null);
+    setBookingSubmitting(true);
 
     let timeSlotString = selectedSlot;
     if (selectedSlot === "Custom Time") {
@@ -365,28 +378,67 @@ Please confirm my booking.`;
     const currentDate = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
     const currentTime = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 
-    // Save to local storage history
-    const newBooking = {
-      planName: selectedPlan.name,
-      price: finalPayable.toLocaleString("en-IN"),
-      duration: selectedPlan.duration,
-      timeSlot: `${selectedDate} @ ${timeSlotString}`,
-      location: customerLocation || "Not specified",
-      date: currentDate,
-      time: currentTime,
-      paymentMethod: "Pay on Visit",
-      status: "Confirmed"
-    };
+    // 1. Save booking to Neon PostgreSQL via /api/bookings
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "instant",
+          service_name: selectedPlan.name,
+          category_name: selectedPlan.category_name || "Own Car Driving",
+          price: selectedPlan.price,
+          customer_name: customerName.trim(),
+          phone: customerPhone.trim(),
+          address: customerLocation.trim(),
+          area: customerLocation.trim(),
+          preferred_date: selectedDate,
+          preferred_time: timeSlotString,
+          notes: appliedCoupon ? `Coupon: ${appliedCoupon.code}` : null,
+          service_id: selectedPlan.id,
+          original_price: selectedPlan.price,
+          offer_code: appliedCoupon ? appliedCoupon.code : null,
+          discount_amount: appliedCoupon ? (selectedPlan.price - finalPayable) : null,
+          final_amount: finalPayable,
+          status: "Pending",
+        }),
+      });
 
-    const updatedBookings = [newBooking, ...localBookings];
-    setLocalBookings(updatedBookings);
-    localStorage.setItem("oncar_bookings", JSON.stringify(updatedBookings));
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error (${res.status})`);
+      }
 
-    // WhatsApp Receipt Text Template specifying Pay on Visit
-    const receiptMessage = `Hi OnCar, I want to book a driving learning package!
+      // 2. DB save succeeded — save to localStorage history
+      const newBooking = {
+        planName: selectedPlan.name,
+        price: finalPayable.toLocaleString("en-IN"),
+        duration: selectedPlan.duration,
+        timeSlot: `${selectedDate} @ ${timeSlotString}`,
+        location: customerLocation || "Not specified",
+        customerName: customerName.trim(),
+        phone: customerPhone.trim(),
+        date: currentDate,
+        time: currentTime,
+        paymentMethod: "Pay on Visit",
+        status: "Confirmed",
+      };
+
+      const updatedBookings = [newBooking, ...localBookings];
+      setLocalBookings(updatedBookings);
+      localStorage.setItem("oncar_bookings", JSON.stringify(updatedBookings));
+
+      // 3. Show confirmed state
+      setBookingStep("confirmed");
+      setBookingSubmitting(false);
+
+      // 4. Build WhatsApp message and open
+      const receiptMessage = `Hi OnCar, I want to book a driving learning package!
 
 🧾 BOOKING DETAILS
 --------------------------
+Name: ${customerName.trim()}
+Phone: ${customerPhone.trim()}
 Plan: ${selectedPlan.name}
 Duration: ${selectedPlan.duration}
 Preferred Date: ${selectedDate}
@@ -399,10 +451,14 @@ Payment Mode: Pay on Instructor Visit
 
 *Note: Instructor visit ke time par payment directly pay karenge, uske baad class start hogi.*`;
 
-    const whatsappUrl = formatWhatsAppLink(receiptMessage, getSettingVal("whatsapp_number", "+919213466544"));
+      const whatsappUrl = formatWhatsAppLink(receiptMessage, getSettingVal("whatsapp_number", "+919213466544"));
+      window.location.href = whatsappUrl;
 
-    // Redirect synchronously inside user-triggered onClick handler to avoid browser custom protocol security block
-    window.location.href = whatsappUrl;
+    } catch (err: any) {
+      // DB save failed — do NOT open WhatsApp
+      setBookingSubmitting(false);
+      setBookingError(err.message || "Booking save failed. Please try again.");
+    }
   };
 
   // Dynamic values
@@ -1347,9 +1403,34 @@ Payment Mode: Pay on Instructor Visit
                     </div>
                   )}
 
+                  {/* Customer Name Input */}
+                  <div className="space-y-2 text-left">
+                    <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Your Full Name <span className="text-red-500">*</span></label>
+                    <input 
+                      type="text"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      placeholder="e.g. Rajesh Patel"
+                      className="w-full px-4 py-3 rounded-xl border border-border text-xs font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-white text-secondary"
+                    />
+                  </div>
+
+                  {/* Customer Phone Input */}
+                  <div className="space-y-2 text-left">
+                    <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Mobile Number <span className="text-red-500">*</span></label>
+                    <input 
+                      type="tel"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value.replace(/[^0-9+]/g, ""))}
+                      placeholder="e.g. 9876543210"
+                      maxLength={13}
+                      className="w-full px-4 py-3 rounded-xl border border-border text-xs font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-white text-secondary"
+                    />
+                  </div>
+
                   {/* Location Input */}
                   <div className="space-y-2 text-left">
-                    <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Your Location in Surat</label>
+                    <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Your Location in Surat <span className="text-red-500">*</span></label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" />
                       <input 
@@ -1361,18 +1442,26 @@ Payment Mode: Pay on Instructor Visit
                       />
                     </div>
                   </div>
+
+                  {/* Booking Error Message */}
+                  {bookingError && (
+                    <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700">
+                      <AlertCircle className="h-4 w-4 shrink-0" />
+                      {bookingError}
+                    </div>
+                  )}
                 </div>
 
                 {/* Modal Footer Action */}
                 <div className="p-6 bg-surface border-t border-border/50 shrink-0">
                   <button
                     type="button"
-                    disabled={!isModalBookingValid}
+                    disabled={!isModalBookingValid || bookingSubmitting}
                     onClick={handleConfirmBooking}
                     className="w-full flex items-center justify-center gap-2 rounded-full font-bold bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/25 py-4 text-sm transition-all active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
                   >
                     <MessageCircle className="h-5 w-5" />
-                    Confirm Booking on WhatsApp
+                    {bookingSubmitting ? "Saving Booking..." : "Confirm Booking on WhatsApp"}
                   </button>
                 </div>
               </>
