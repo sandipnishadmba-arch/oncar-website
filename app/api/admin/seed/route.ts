@@ -3,8 +3,9 @@ import { pool } from "@/lib/db";
 
 // Protected seed endpoint — requires SEED_SECRET env var match
 export async function POST(request: Request) {
-  const secret = request.headers.get("x-seed-secret");
-  const expectedSecret = process.env.SEED_SECRET || "oncar-seed-2024";
+  const url = new URL(request.url);
+  const secret = request.headers.get("x-seed-secret") || url.searchParams.get("secret");
+  const expectedSecret = (process.env.SEED_SECRET || "oncar-seed-2024").trim();
 
   if (secret !== expectedSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
