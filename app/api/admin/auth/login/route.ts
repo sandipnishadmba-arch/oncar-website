@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 import { createSession, query } from "@/lib/db";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {

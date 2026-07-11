@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { getAuthUser } from "@/lib/auth";
 import { getServices, addService, updateService, deleteService } from "@/lib/db";
+
+export const runtime = "nodejs";
 
 // Middleware-like check
 async function checkAuth() {

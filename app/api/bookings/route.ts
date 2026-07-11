@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { createBooking, query } from "@/lib/db";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {

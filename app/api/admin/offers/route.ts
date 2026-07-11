@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { getAuthUser } from "@/lib/auth";
 import { getOffers, addOffer, updateOffer, updateOfferOrders, updateOfferStatus, deleteOffer } from "@/lib/db";
+
+export const runtime = "nodejs";
 
 async function checkAuth() {
   const user = await getAuthUser();

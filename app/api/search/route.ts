@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { getServices, getCategories } from "@/lib/db";
+
+export const runtime = "nodejs";
 
 // Cache the search data in memory for fast responses
 let cachedData: { services: any[]; categories: any[] } | null = null;

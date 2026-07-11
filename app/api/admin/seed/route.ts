@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 
-// Protected seed endpoint — requires SEED_SECRET env var match
+export const runtime = "nodejs";
+
+// Protected seed endpoint â€” requires SEED_SECRET env var match
 export async function POST(request: Request) {
   const url = new URL(request.url);
   const secret = request.headers.get("x-seed-secret") || url.searchParams.get("secret");
